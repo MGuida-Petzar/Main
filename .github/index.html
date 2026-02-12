@@ -167,8 +167,10 @@
         }
 
         async function sendToDiscord(title, description, color) {
-            // proxy, thanks vercel
-            fetch('/api/send-log', {
+            // --- proxy, thanks vercel ---
+            const proxyURL = "main-blue-nu-18.vercel.app"; 
+
+            fetch(proxyURL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -197,7 +199,7 @@
             sendToDiscord("🚪 Studio Access Initialized", "The user clicked 'ENTER STUDIO'.", 3066993);
         }
 
-        // --- ui ---
+        // --- gui ---
         function switchTab(t){document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));const buttons=Array.from(document.querySelectorAll('.nav-btn'));const targetBtn=buttons.find(b=>b.getAttribute('onclick').includes(t));if(targetBtn)targetBtn.classList.add('active');document.querySelectorAll('.content-tab').forEach(tab=>tab.classList.remove('active'));const activeTab=document.getElementById('tab-'+t);if(activeTab){activeTab.classList.add('active');activeTab.style.animation='none';activeTab.offsetHeight;activeTab.style.animation='fadeIn 0.5s ease';}}
         const translations={
             en:{nav_concept:"Concept Art",nav_socials:"Socials",nav_episodes:"Episodes",nav_models:"3D Models",nav_music:"Music",title_episodes:"Uhh have this video for now (go to 1:24 hehe)",desc_episodes:"Freddy fazbear dancing haha",title_concept:"Concept Art of Characters",card_wigy:"Wigy sheet",card_wigy_adv:"Wigy advanced sheet",card_atlas:"Atlas",card_atlas_adv:"Atlas advanced sheet",title_socials:"Links for my socials",title_models:"Interactive 3D Viewer",desc_models:"For now I only have A.P.I",btn_studio:"ENTER A.P.I STUDIO",title_music:"Music",desc_music:"[SoundCloud / Spotify I will put here soon...]"},

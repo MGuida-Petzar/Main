@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A.P.I - Archives</title>
+    <title>| Landing Page |</title>
     <style>
         /* --- CORE STYLES --- */
         :root {
@@ -64,7 +64,15 @@
         .grid-gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; width: 100%; margin-top: 20px; }
         .placeholder-card { background: var(--panel-bg); height: 200px; border-radius: 8px; border: 1px solid #333; display: flex; align-items: center; justify-content: center; color: #555; transition: 0.3s; }
         .placeholder-card:hover { border-color: var(--accent-color); color: var(--accent-color); }
-        .studio-link-btn { background: linear-gradient(45deg, var(--accent-color), var(--glow-color)); border: none; padding: 20px 50px; font-size: 1.5rem; color: white; border-radius: 50px; cursor: pointer; margin-top: 50px; text-decoration: none; box-shadow: 0 0 30px rgba(79, 55, 139, 0.4); transition: 0.3s; }
+        
+        /* STUDIO BUTTON */
+        .studio-link-btn { 
+            background: linear-gradient(45deg, var(--accent-color), var(--glow-color)); 
+            border: none; padding: 20px 50px; font-size: 1.5rem; color: white; 
+            border-radius: 50px; cursor: pointer; margin-top: 50px; 
+            text-decoration: none; box-shadow: 0 0 30px rgba(79, 55, 139, 0.4); 
+            transition: 0.3s; display: inline-block;
+        }
         .studio-link-btn:hover { transform: scale(1.05); box-shadow: 0 0 50px rgba(79, 55, 139, 0.8); }
 
         /* --- LANG SWITCHER --- */
@@ -92,16 +100,22 @@
     <div id="main-container">
         <div id="tab-episodes" class="content-tab active">
             <div class="section-title" data-lang="title_episodes">Uhh have this video for now (go to 1:24 hehe)</div>
-            
             <div class="video-wrapper" id="video-box" onclick="loadVideo()">
                 <div class="yt-placeholder">
                     <svg class="play-btn" viewBox="0 0 68 48"><path d="M66.52,7.74c-0.78-2.93-2.49-5.41-5.42-6.19C55.79,0.13,34,0,34,0S12.21,0.13,6.9,1.55 c-2.93,0.78-4.64,3.26-5.42,6.19C0.06,13.05,0,24,0,24s0.06,10.95,1.48,16.26c0.78,2.93,2.49,5.41,5.42,6.19 C12.21,47.87,34,48,34,48s21.79-0.13,27.1-1.55c2.93-0.78,4.64-3.26,5.42-6.19C67.94,34.95,68,24,68,24S67.94,13.05,66.52,7.74z"></path><path d="M 45,24 27,14 27,34" fill="#fff"></path></svg>
                 </div>
             </div>
-            
-            <a href="https://youtu.be/_gJE8POYCYg" target="_blank" class="fallback-link" data-lang="link_fallback">Video may not load, if so, you can watch here directly on YouTube [Click Me]</a>
-
+            <a href="https://youtu.be/_gJE8POYCYg" target="_blank" class="fallback-link" data-lang="link_fallback">If video is not loading you can click this text and go to youtube</a>
             <p style="color: #888; margin-top: 20px; max-width: 600px; line-height: 1.5;" data-lang="desc_episodes">Freddy fazbear dancing haha</p>
+        </div>
+
+        <div id="tab-models" class="content-tab">
+            <div class="section-title" data-lang="title_models">Interactive 3D Viewer</div>
+            <p data-lang="desc_models">For now I only have A.P.I</p>
+            <a href="https://mguida-petzar.github.io/A.P.I-Model/" 
+               class="studio-link-btn" 
+               onclick="trackStudioClick()" 
+               data-lang="btn_studio">ENTER A.P.I STUDIO</a>
         </div>
 
         <div id="tab-concept" class="content-tab">
@@ -123,16 +137,10 @@
             </div>
         </div>
 
-        <div id="tab-models" class="content-tab">
-            <div class="section-title" data-lang="title_models">Interactive 3D Viewer</div>
-            <p data-lang="desc_models">For now I only have A.P.I</p>
-            <a href="https://mguida-petzar.github.io/A.P.I-Model/" class="studio-link-btn" data-lang="btn_studio">ENTER STUDIO</a>
-        </div>
-
         <div id="tab-music" class="content-tab">
             <div class="section-title" data-lang="title_music">Music</div>
             <div class="placeholder-card" style="width: 100%; height: 150px; margin-top: 20px;">
-                <span data-lang="desc_music">[SoundCloud / Spotify I will put here]</span>
+                <span data-lang="desc_music">[SoundCloud / Spotify I will put here soon... when I make music]</span>
             </div>
         </div>
     </div>
@@ -146,40 +154,72 @@
     </div>
 
     <script>
-// --- WEBHOOK LOGIC ---
-        // REPLACE THE URL BELOW WITH YOUR ACTUAL DISCORD WEBHOOK URL
-        const webhookURL = "https://discord.com/api/webhooks/1471560886463234261/CXi1CT4YbMHV1XNW5lTOr4z7wkb-5zk8410B8a2p566WTi5Udf8qMfnxlVb_k2gAq37-";
+        // --- 1. CONFIG & GLOBALS ---
+        const webhookURL = "YOUR_DISCORD_WEBHOOK_URL_HERE";
+        let visitorData = { country: "Unknown", flag: "❓", device: "Desktop", os: "Unknown OS" };
 
-        window.onload = () => {
-            if(webhookURL !== "YOUR_DISCORD_WEBHOOK_URL_HERE") {
-                fetch(webhookURL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        content: "🚀 **A.P.I Landing Page Accessed!**\nA user just landed on the archives."
-                    })
-                });
-            }
-        };
+        // --- 2. ANALYTICS & WEBHOOK LOGIC ---
+        async function getVisitorInfo() {
+            try {
+                // Get Country
+                const geoRes = await fetch('https://ipapi.co/json/');
+                const geoData = await geoRes.json();
+                visitorData.country = geoData.country_name || "Unknown";
+                visitorData.flag = geoData.country_code ? `:flag_${geoData.country_code.toLowerCase()}:` : "❓";
 
-        // --- 2. VIDEO LOGIC (Referrer Policy Fix) ---
-        function loadVideo() {
-            const box = document.getElementById('video-box');
-            box.innerHTML = `
-                <iframe 
-                    src="https://www.youtube-nocookie.com/embed/_gJE8POYCYg?autoplay=1&rel=0" 
-                    title="YouTube video player" 
-                    style="width:100%; height:100%; border:none;"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                    referrerpolicy="strict-origin-when-cross-origin"
-                    allowfullscreen>
-                </iframe>`;
+                // Get Device & OS
+                const ua = navigator.userAgent;
+                if (/tablet|ipad|playbook|silk/i.test(ua)) visitorData.device = "Tablet";
+                else if (/Mobile|Android|iP(hone|od)/i.test(ua)) visitorData.device = "Mobile";
+
+                if (ua.indexOf("Win") !== -1) visitorData.os = "Windows";
+                else if (ua.indexOf("Mac") !== -1) visitorData.os = "MacOS";
+                else if (ua.indexOf("Android") !== -1) visitorData.os = "Android";
+                else if (ua.indexOf("like Mac") !== -1) visitorData.os = "iOS";
+                else if (ua.indexOf("Linux") !== -1) visitorData.os = "Linux";
+            } catch (e) { console.log("Geo-blocking or local file restricted analytics."); }
         }
 
-        // --- 3. TAB LOGIC ---
+        async function sendToDiscord(title, description, color) {
+            if (!webhookURL || webhookURL.includes("YOUR_DISCORD")) return;
+            fetch(webhookURL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    embeds: [{
+                        title: title,
+                        description: description,
+                        color: color,
+                        fields: [
+                            { name: "Location", value: `${visitorData.flag} ${visitorData.country}`, inline: true },
+                            { name: "Device", value: `📱 ${visitorData.device}`, inline: true },
+                            { name: "OS", value: `💻 ${visitorData.os}`, inline: true }
+                        ],
+                        timestamp: new Date().toISOString(),
+                        footer: { text: "A.P.I Monitoring System" }
+                    }]
+                })
+            });
+        }
+
+        // Run on Page Load
+        window.onload = async () => {
+            await getVisitorInfo();
+            sendToDiscord("🚀 Archives Accessed", "A new user is viewing the landing page.", 5191563);
+        };
+
+        // Run on Studio Button Click
+        function trackStudioClick() {
+            sendToDiscord("🚪 Studio Access Initialized", "The user clicked 'ENTER STUDIO'. Link redirection starting...", 3066993); // Greenish color
+        }
+
+        // --- 3. VIDEO & UI LOGIC ---
+        function loadVideo() {
+            document.getElementById('video-box').innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/_gJE8POYCYg?autoplay=1&rel=0" title="YouTube video player" style="width:100%; height:100%; border:none;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`;
+        }
+
         function switchTab(t){document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));const buttons=Array.from(document.querySelectorAll('.nav-btn'));const targetBtn=buttons.find(b=>b.getAttribute('onclick').includes(t));if(targetBtn)targetBtn.classList.add('active');document.querySelectorAll('.content-tab').forEach(tab=>tab.classList.remove('active'));const activeTab=document.getElementById('tab-'+t);if(activeTab){activeTab.classList.add('active');activeTab.style.animation='none';activeTab.offsetHeight;activeTab.style.animation='fadeIn 0.5s ease';}}
 
-        // --- 4. TRANSLATION LOGIC ---
         const translations={
             en:{nav_concept:"Concept Art",nav_socials:"Socials",nav_episodes:"Episodes",nav_models:"3D Models",nav_music:"Music",title_episodes:"Uhh have this video for now (go to 1:24 hehe)",desc_episodes:"Freddy fazbear dancing haha",link_fallback:"Video not loading? Watch directly on YouTube",title_concept:"Concept Art of Characters",card_wigy:"Wigy sheet",card_wigy_adv:"Wigy advanced sheet",card_atlas:"Atlas",card_atlas_adv:"Atlas advanced sheet",title_socials:"Links for my socials",title_models:"Interactive 3D Viewer",desc_models:"For now I only have A.P.I",btn_studio:"ENTER STUDIO",title_music:"Music",desc_music:"[SoundCloud / Spotify I will put here]"},
             pt:{nav_concept:"Arte Conceitual",nav_socials:"Redes Sociais",nav_episodes:"Episódios",nav_models:"Modelos 3D",nav_music:"Música",title_episodes:"Uhh fica com esse vídeo por enquanto (vai pro 1:24 hehe)",desc_episodes:"Freddy fazbear dançando haha",link_fallback:"Vídeo não carregou? Assista direto no YouTube",title_concept:"Arte Conceitual dos Personagens",card_wigy:"Ficha do Wigy",card_wigy_adv:"Ficha avançada do Wigy",card_atlas:"Atlas",card_atlas_adv:"Ficha avançada do Atlas",title_socials:"Links das minhas redes",title_models:"Visualizador 3D Interativo",desc_models:"Por enquanto só tenho o A.P.I",btn_studio:"ENTRAR NO ESTÚDIO",title_music:"Música",desc_music:"[Vou colocar SoundCloud / Spotify aqui]"}

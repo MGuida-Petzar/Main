@@ -167,8 +167,8 @@
         }
 
         async function sendToDiscord(title, description, color) {
-            // --- proxy, thanks vercel ---
-            const proxyURL = "main-blue-nu-18.vercel.app"; 
+            // --- , thanks vercel ---
+            const proxyURL = "/api/send-log"; 
 
             fetch(proxyURL, {
                 method: 'POST',

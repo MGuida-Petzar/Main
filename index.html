@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>Landing Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A.P.I - Archives</title>
     <style>
         /* --- CORE STYLES --- */
         :root {
@@ -19,12 +19,9 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             font-family: var(--font-main);
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
+            margin: 0; padding: 0;
+            display: flex; flex-direction: column;
+            align-items: center; min-height: 100vh;
         }
 
         /* --- NAVIGATION --- */
@@ -32,38 +29,41 @@
         .nav-btn {
             background: transparent; border: 2px solid var(--accent-color); color: white;
             padding: 12px 30px; border-radius: 8px; font-size: 1.1rem; font-weight: 600;
-            cursor: pointer; transition: all 0.3s ease; text-transform: capitalize;
+            cursor: pointer; transition: 0.3s; text-transform: capitalize;
             min-width: 140px; text-align: center; box-shadow: 0 0 5px rgba(79, 55, 139, 0.2);
         }
-        .nav-btn:hover { background: rgba(79, 55, 139, 0.2); box-shadow: 0 0 15px var(--glow-color); border-color: var(--glow-color); transform: translateY(-2px); }
-        .nav-btn.active { background: var(--accent-color); box-shadow: 0 0 20px var(--accent-color); border-color: #d0bcff; color: #fff; }
+        .nav-btn:hover { background: rgba(79, 55, 139, 0.2); box-shadow: 0 0 15px var(--glow-color); transform: translateY(-2px); }
+        .nav-btn.active { background: var(--accent-color); box-shadow: 0 0 20px var(--accent-color); border-color: #d0bcff; }
 
-        /* --- MAIN CONTENT --- */
-        #main-container { width: 90%; max-width: 1200px; margin-top: 60px; display: flex; flex-direction: column; align-items: center; animation: fadeIn 0.5s ease; }
-        .section-title { font-size: 1.5rem; margin-bottom: 20px; letter-spacing: 1px; text-align: center; font-weight: 600; }
+        /* --- MAIN CONTAINER --- */
+        #main-container { width: 90%; max-width: 1200px; margin-top: 60px; display: flex; flex-direction: column; align-items: center; }
+        .section-title { font-size: 1.5rem; margin-bottom: 20px; font-weight: 600; text-align: center; }
 
-        /* --- OPTION 3: VIDEO THUMBNAIL WORKAROUND --- */
+        /* --- VIDEO WORKAROUND (Option 3) --- */
         .video-wrapper {
             width: 100%; max-width: 900px; background: #000; border: 3px solid #1a1a1a;
             border-radius: 12px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
             aspect-ratio: 16 / 9; position: relative; cursor: pointer;
         }
-        .video-wrapper iframe { width: 100%; height: 100%; border: none; }
         .yt-placeholder {
             position: absolute; width:100%; height:100%; display:flex; 
             justify-content:center; align-items:center; 
             background: url('https://img.youtube.com/vi/_gJE8POYCYg/maxresdefault.jpg') center/cover;
+            transition: 0.3s;
         }
+        .video-wrapper:hover .yt-placeholder { filter: brightness(1.2); }
         .play-btn { fill: #f00; width: 68px; height: 48px; transition: 0.3s; }
         .video-wrapper:hover .play-btn { fill: #ff4444; transform: scale(1.1); }
+        
+        .fallback-link { font-size: 0.85rem; color: #555; margin-top: 10px; text-decoration: none; transition: 0.3s; }
+        .fallback-link:hover { color: var(--accent-color); }
 
         /* --- CONTENT TABS --- */
-        .content-tab { display: none; width: 100%; text-align: center; }
+        .content-tab { display: none; width: 100%; text-align: center; animation: fadeIn 0.5s ease; }
         .content-tab.active { display: flex; flex-direction: column; align-items: center; }
         .grid-gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; width: 100%; margin-top: 20px; }
         .placeholder-card { background: var(--panel-bg); height: 200px; border-radius: 8px; border: 1px solid #333; display: flex; align-items: center; justify-content: center; color: #555; transition: 0.3s; }
         .placeholder-card:hover { border-color: var(--accent-color); color: var(--accent-color); }
-
         .studio-link-btn { background: linear-gradient(45deg, var(--accent-color), var(--glow-color)); border: none; padding: 20px 50px; font-size: 1.5rem; color: white; border-radius: 50px; cursor: pointer; margin-top: 50px; text-decoration: none; box-shadow: 0 0 30px rgba(79, 55, 139, 0.4); transition: 0.3s; }
         .studio-link-btn:hover { transform: scale(1.05); box-shadow: 0 0 50px rgba(79, 55, 139, 0.8); }
 
@@ -71,9 +71,9 @@
         .lang-container { position: fixed; bottom: 30px; left: 30px; z-index: 2000; }
         .lang-icon { width: 50px; height: 50px; background: rgba(19, 19, 27, 0.8); backdrop-filter: blur(5px); border: 2px solid var(--accent-color); border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: 0.3s; }
         .lang-icon svg { width: 24px; height: 24px; fill: #d0bcff; }
-        .lang-menu { position: absolute; bottom: 70px; left: 0; width: 160px; background: rgba(19, 19, 27, 0.95); backdrop-filter: blur(10px); border: 1px solid var(--accent-color); border-radius: 12px; padding: 8px; display: flex; flex-direction: column; gap: 5px; opacity: 0; visibility: hidden; transform: translateY(10px); transition: 0.3s; }
+        .lang-menu { position: absolute; bottom: 70px; left: 0; width: 180px; background: rgba(19, 19, 27, 0.95); backdrop-filter: blur(10px); border: 1px solid var(--accent-color); border-radius: 12px; padding: 8px; display: flex; flex-direction: column; gap: 5px; opacity: 0; visibility: hidden; transform: translateY(10px); transition: 0.3s; }
         .lang-container:hover .lang-menu { opacity: 1; visibility: visible; transform: translateY(0); }
-        .lang-btn { background: transparent; border: none; color: #aaa; padding: 10px; text-align: left; cursor: pointer; border-radius: 6px; font-weight: 500; }
+        .lang-btn { background: transparent; border: none; color: #aaa; padding: 10px; text-align: left; cursor: pointer; border-radius: 6px; font-weight: 500; font-family: inherit; }
         .lang-btn:hover { background: rgba(79, 55, 139, 0.3); color: white; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -98,6 +98,8 @@
                     <svg class="play-btn" viewBox="0 0 68 48"><path d="M66.52,7.74c-0.78-2.93-2.49-5.41-5.42-6.19C55.79,0.13,34,0,34,0S12.21,0.13,6.9,1.55 c-2.93,0.78-4.64,3.26-5.42,6.19C0.06,13.05,0,24,0,24s0.06,10.95,1.48,16.26c0.78,2.93,2.49,5.41,5.42,6.19 C12.21,47.87,34,48,34,48s21.79-0.13,27.1-1.55c2.93-0.78,4.64-3.26,5.42-6.19C67.94,34.95,68,24,68,24S67.94,13.05,66.52,7.74z"></path><path d="M 45,24 27,14 27,34" fill="#fff"></path></svg>
                 </div>
             </div>
+            
+            <a href="https://youtu.be/_gJE8POYCYg" target="_blank" class="fallback-link" data-lang="link_fallback">Video not loading? Watch directly on YouTube</a>
 
             <p style="color: #888; margin-top: 20px; max-width: 600px; line-height: 1.5;" data-lang="desc_episodes">Freddy fazbear dancing haha</p>
         </div>
@@ -144,30 +146,49 @@
     </div>
 
     <script>
-        // --- WEBHOOK LOGIC ---
-        // REPLACE THE URL BELOW WITH YOUR ACTUAL DISCORD WEBHOOK URL
+        // --- 1. WEBHOOK LOGIC (Advanced Embed) ---
         const webhookURL = "https://discord.com/api/webhooks/1471560886463234261/CXi1CT4YbMHV1XNW5lTOr4z7wkb-5zk8410B8a2p566WTi5Udf8qMfnxlVb_k2gAq37-";
 
         window.onload = () => {
-            if(webhookURL !== "YOUR_DISCORD_WEBHOOK_URL_HERE") {
+            if(webhookURL && webhookURL !== "https://discord.com/api/webhooks/1471560886463234261/CXi1CT4YbMHV1XNW5lTOr4z7wkb-5zk8410B8a2p566WTi5Udf8qMfnxlVb_k2gAq37-") {
                 fetch(webhookURL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        content: "🚀 **A.P.I Landing Page Accessed!**\nA user just landed on the archives."
+                        embeds: [{
+                            title: "🚀 Page Viewed",
+                            description: "A user is exploring the landing page archives.",
+                            color: 5191563, // Purple hex in decimal
+                            timestamp: new Date(),
+                            footer: { text: "MGuida Viewer" }
+                        }]
                     })
                 });
             }
         };
 
-        // --- OPTION 3: LOAD VIDEO ---
+        // --- 2. VIDEO LOGIC (Referrer Policy Fix) ---
         function loadVideo() {
-            document.getElementById('video-box').innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/_gJE8POYCYg?autoplay=1" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+            const box = document.getElementById('video-box');
+            box.innerHTML = `
+                <iframe 
+                    src="https://www.youtube-nocookie.com/embed/_gJE8POYCYg?autoplay=1&rel=0" 
+                    title="YouTube video player" 
+                    style="width:100%; height:100%; border:none;"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    referrerpolicy="strict-origin-when-cross-origin"
+                    allowfullscreen>
+                </iframe>`;
         }
 
-        // --- TAB & LANG LOGIC ---
+        // --- 3. TAB LOGIC ---
         function switchTab(t){document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));const buttons=Array.from(document.querySelectorAll('.nav-btn'));const targetBtn=buttons.find(b=>b.getAttribute('onclick').includes(t));if(targetBtn)targetBtn.classList.add('active');document.querySelectorAll('.content-tab').forEach(tab=>tab.classList.remove('active'));const activeTab=document.getElementById('tab-'+t);if(activeTab){activeTab.classList.add('active');activeTab.style.animation='none';activeTab.offsetHeight;activeTab.style.animation='fadeIn 0.5s ease';}}
-        const translations={en:{nav_concept:"Concept Art",nav_socials:"Socials",nav_episodes:"Episodes",nav_models:"3D Models",nav_music:"Music",title_episodes:"Uhh have this video for now (go to 1:24 hehe)",desc_episodes:"Freddy fazbear dancing haha",title_concept:"Concept Art of Characters",card_wigy:"Wigy sheet",card_wigy_adv:"Wigy advanced sheet",card_atlas:"Atlas",card_atlas_adv:"Atlas advanced sheet",title_socials:"Links for my socials",title_models:"Interactive 3D Viewer",desc_models:"For now I only have A.P.I",btn_studio:"ENTER STUDIO",title_music:"Music",desc_music:"[SoundCloud / Spotify I will put here]"},pt:{nav_concept:"Arte Conceitual",nav_socials:"Redes Sociais",nav_episodes:"Episódios",nav_models:"Modelos 3D",nav_music:"Música",title_episodes:"Uhh fica com esse vídeo por enquanto (vai pro 1:24 hehe)",desc_episodes:"Freddy fazbear dançando haha",title_concept:"Arte Conceitual dos Personagens",card_wigy:"Ficha do Wigy",card_wigy_adv:"Ficha avançada do Wigy",card_atlas:"Atlas",card_atlas_adv:"Ficha avançada do Atlas",title_socials:"Links das minhas redes",title_models:"Visualizador 3D Interativo",desc_models:"Por enquanto só tenho o A.P.I",btn_studio:"ENTRAR NO ESTÚDIO",title_music:"Música",desc_music:"[Vou colocar SoundCloud / Spotify aqui]"}};
+
+        // --- 4. TRANSLATION LOGIC ---
+        const translations={
+            en:{nav_concept:"Concept Art",nav_socials:"Socials",nav_episodes:"Episodes",nav_models:"3D Models",nav_music:"Music",title_episodes:"Uhh have this video for now (go to 1:24 hehe)",desc_episodes:"Freddy fazbear dancing haha",link_fallback:"Video not loading? Watch directly on YouTube",title_concept:"Concept Art of Characters",card_wigy:"Wigy sheet",card_wigy_adv:"Wigy advanced sheet",card_atlas:"Atlas",card_atlas_adv:"Atlas advanced sheet",title_socials:"Links for my socials",title_models:"Interactive 3D Viewer",desc_models:"For now I only have A.P.I",btn_studio:"ENTER STUDIO",title_music:"Music",desc_music:"[SoundCloud / Spotify I will put here]"},
+            pt:{nav_concept:"Arte Conceitual",nav_socials:"Redes Sociais",nav_episodes:"Episódios",nav_models:"Modelos 3D",nav_music:"Música",title_episodes:"Uhh fica com esse vídeo por enquanto (vai pro 1:24 hehe)",desc_episodes:"Freddy fazbear dançando haha",link_fallback:"Vídeo não carregou? Assista direto no YouTube",title_concept:"Arte Conceitual dos Personagens",card_wigy:"Ficha do Wigy",card_wigy_adv:"Ficha avançada do Wigy",card_atlas:"Atlas",card_atlas_adv:"Ficha avançada do Atlas",title_socials:"Links das minhas redes",title_models:"Visualizador 3D Interativo",desc_models:"Por enquanto só tenho o A.P.I",btn_studio:"ENTRAR NO ESTÚDIO",title_music:"Música",desc_music:"[Vou colocar SoundCloud / Spotify aqui]"}
+        };
         function setLanguage(l){document.querySelectorAll('[data-lang]').forEach(el=>{const k=el.getAttribute('data-lang');if(translations[l]&&translations[l][k])el.innerText=translations[l][k];});}
     </script>
 </body>
